@@ -1,4 +1,4 @@
-import soundfile
+import librosa
 
 import pyfoal
 
@@ -10,7 +10,10 @@ import pyfoal
 
 def audio(file):
     """Load audio from file"""
-    audio, sample_rate = soundfile.read(file)
+    # Using librosa to load audio at its native sampling rate. We use this
+    # instead of the original soundfile to automatically convert
+    # stereo to mono.
+    audio, sample_rate = librosa.load(file, sr=None)
 
     # Resample
     return pyfoal.resample(audio, sample_rate)
